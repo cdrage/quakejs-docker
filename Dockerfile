@@ -25,6 +25,16 @@ RUN git clone https://github.com/begleysm/quakejs . && \
 COPY server.cfg /quakejs/base/baseq3/
 COPY server.cfg /quakejs/base/cpma/
 
+# Within the server.cfg, change MOTD to arg as well as CHANGEMYPASSWORD.
+ARG MOTD="Welcome to QuakeJS"
+ARG RCONPASSWORD="changeme"
+
+# Change within server.cfg the text that matches MOTD and RCONPASSWORD
+RUN sed -i "s/MOTD/${MOTD}/g" /quakejs/base/baseq3/server.cfg && \
+    sed -i "s/RCONPASSWORD/${RCONPASSWORD}/g" /quakejs/base/baseq3/server.cfg && \
+    sed -i "s/MOTD/${MOTD}/g" /quakejs/base/cpma/server.cfg && \
+    sed -i "s/RCONPASSWORD/${RCONPASSWORD}/g" /quakejs/base/cpma/server.cfg
+
 # Replace the fixed JavaScript file for ioq3ded
 COPY ./include/ioq3ded/ioq3ded.fixed.js /quakejs/build/ioq3ded.js
 
